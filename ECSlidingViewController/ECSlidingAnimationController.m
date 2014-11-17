@@ -56,6 +56,16 @@
         [containerView insertSubview:toViewController.view belowSubview:topViewController.view];
     }
     
+    // for complex topViewController the resizing transition is looks not very good
+    // if a final width is smaller than an initial
+    BOOL needResizeAtEnd = NO;
+    CGFloat finalWidth = 0;
+    if (topViewFinalFrame.size.width < topViewInitialFrame.size.width) {
+        finalWidth = topViewFinalFrame.size.width;
+        topViewFinalFrame.size.width = topViewInitialFrame.size.width;
+        needResizeAtEnd = YES;
+    }
+    
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration animations:^{
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -64,6 +74,10 @@
     } completion:^(BOOL finished) {
         if ([transitionContext transitionWasCancelled]) {
             topViewController.view.frame = [transitionContext initialFrameForViewController:topViewController];
+        } else if (needResizeAtEnd) {
+            CGRect finalFrame = topViewController.view.frame;
+            finalFrame.size.width = finalWidth;
+            topViewController.view.frame = finalFrame;
         }
         
         if (self.coordinatorCompletion) self.coordinatorCompletion((id<UIViewControllerTransitionCoordinatorContext>)transitionContext);
