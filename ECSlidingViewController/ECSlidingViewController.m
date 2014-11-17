@@ -877,6 +877,19 @@
     if (!self.isTopViewAlwaysResponsibleForStatusBarAppearance) {
         [self setNeedsStatusBarAppearanceUpdate];
     }
+    
+    if (_currentTopViewPosition == ECSlidingViewControllerTopViewPositionCentered) {
+        
+        if ([(NSObject *)self.delegate respondsToSelector:@selector(slidingViewControllerDidResetTopView:)]) {
+            [self.delegate slidingViewControllerDidResetTopView:self];
+        }
+        
+    } else {
+        
+        if ([(NSObject *)self.delegate respondsToSelector:@selector(slidingViewControllerDidAnchorTopView:)]) {
+            [self.delegate slidingViewControllerDidAnchorTopView:self];
+        }
+    }
 }
 
 - (UIViewController *)viewControllerForKey:(NSString *)key {

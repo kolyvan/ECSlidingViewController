@@ -90,6 +90,12 @@
  */
 - (id<ECSlidingViewControllerLayout>)slidingViewController:(ECSlidingViewController *)slidingViewController
                         layoutControllerForTopViewPosition:(ECSlidingViewControllerTopViewPosition)topViewPosition;
+
+
+- (void)slidingViewControllerDidAnchorTopView:(ECSlidingViewController *)slidingViewController;
+
+- (void)slidingViewControllerDidResetTopView:(ECSlidingViewController *)slidingViewController;
+
 @end
 
 /**
