@@ -271,7 +271,9 @@
         [_topViewController didMoveToParentViewController:self];
         
         if ([self isViewLoaded]) {
+            
             [_topViewController beginAppearanceTransition:YES animated:NO];
+            _topViewController.view.frame = [self topViewCalculatedFrameForPosition:self.currentTopViewPosition];
             [self.view addSubview:_topViewController.view];
             [_topViewController endAppearanceTransition];
         }
