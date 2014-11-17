@@ -211,26 +211,35 @@
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
-    if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionCentered) {
+    
+    if (self.isTopViewAlwaysResponsibleForStatusBarAppearance) {
         return self.topViewController;
-    } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
-        return self.underRightViewController;
-    } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
-        return self.underLeftViewController;
     } else {
-        return nil;
+        if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionCentered) {
+            return self.topViewController;
+        } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
+            return self.underRightViewController;
+        } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
+            return self.underLeftViewController;
+        } else {
+            return nil;
+        }
     }
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionCentered) {
+    if (self.isTopViewAlwaysResponsibleForStatusBarAppearance) {
         return self.topViewController;
-    } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
-        return self.underRightViewController;
-    } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
-        return self.underLeftViewController;
     } else {
-        return nil;
+        if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionCentered) {
+            return self.topViewController;
+        } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
+            return self.underRightViewController;
+        } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
+            return self.underLeftViewController;
+        } else {
+            return nil;
+        }
     }
 }
 
@@ -263,6 +272,10 @@
             [self.view addSubview:_topViewController.view];
             [_topViewController endAppearanceTransition];
         }
+    }
+    
+    if (self.isTopViewAlwaysResponsibleForStatusBarAppearance) {
+        [self setNeedsStatusBarAppearanceUpdate];
     }
 }
 
@@ -860,7 +873,10 @@
     self.transitionInProgress        = NO;
     self.view.userInteractionEnabled = YES;
     [UIViewController attemptRotationToDeviceOrientation];
-    [self setNeedsStatusBarAppearanceUpdate];
+    
+    if (!self.isTopViewAlwaysResponsibleForStatusBarAppearance) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
 }
 
 - (UIViewController *)viewControllerForKey:(NSString *)key {

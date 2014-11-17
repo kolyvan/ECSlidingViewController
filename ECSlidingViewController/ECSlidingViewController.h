@@ -303,4 +303,9 @@
  */
 @property (nonatomic, assign) NSTimeInterval defaultTransitionDuration;
 
+/**
+ True if TopView is always responsible for status bar appearance.
+ */
+@property (nonatomic, assign) BOOL isTopViewAlwaysResponsibleForStatusBarAppearance;
+
 @end
