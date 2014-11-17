@@ -189,7 +189,10 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return self.currentOperation == ECSlidingViewControllerOperationNone;
+    if (self.currentOperation == ECSlidingViewControllerOperationNone) {
+        return [_topViewController shouldAutorotate];
+    }
+    return NO;
 }
 
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods {
