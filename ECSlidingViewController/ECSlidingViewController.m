@@ -256,6 +256,10 @@
 #pragma mark - Properties
 
 - (void)setTopViewController:(UIViewController *)topViewController {
+    
+    if (_topViewController == topViewController)
+        return;
+    
     UIViewController *oldTopViewController = _topViewController;
     
     [oldTopViewController.view removeFromSuperview];
